@@ -1,0 +1,74 @@
+{% extends 'common/base.html' %}
+
+
+{% block body %}
+
+    
+<main>
+    <!--? slider Area Start-->
+    <div class="slider-area ">
+        <div class="slider-active">
+            <!-- Single Slider -->
+            <div class="single-slider slider-height d-flex align-items-center">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-9 col-lg-9 col-md-9">
+                            <div class="hero__caption">
+                                <span data-animation="fadeInLeft" data-delay=".2s">Discover Your Teste</span>
+                                <h1 data-animation="fadeInLeft" data-delay=".4s">We belive good food offer great smile</h1>
+                                <p data-animation="fadeInLeft" data-delay=".6s">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat is aute irure.</p>
+                                <!-- Hero-btn -->
+                                <div class="hero__btn">
+                                    <a href="industries.html" class="btn hero-btn"  data-animation="fadeInLeft" data-delay=".8s">Resurvation</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Single Slider -->
+            <div class="single-slider slider-height d-flex align-items-center">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-9 col-lg-9 col-md-9">
+                            <div class="hero__caption">
+                                <span data-animation="fadeInLeft" data-delay=".2s">Discover Your Teste</span>
+                                <h1 data-animation="fadeInLeft" data-delay=".4s">We belive good food offer great smile</h1>
+                                <p data-animation="fadeInLeft" data-delay=".6s">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat is aute irure.</p>
+                                <!-- Hero-btn -->
+                                <div class="hero__btn">
+                                    <a href="industries.html" class="btn hero-btn"  data-animation="fadeInLeft" data-delay=".8s">Resurvation</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- slider Area End-->
+    <!--? About Area Start -->
+    {% include 'layouts/about-section.html' %}
+    <!-- About Area End -->
+    <!--? gallery Products Start -->
+    {% include 'layouts/gallery-section.html' %}
+    <!-- gallery Products End -->
+    <!--? About-2 Area Start -->
+    {% include 'layouts/about-two-section.html' %}
+    <!-- About-2 Area End -->
+    <!--? Booking Room Start-->
+    {% include 'layouts/booking-room.html' %}
+    <!-- Booking Room End-->
+    <!--? Our Services Start -->
+    {% include 'layouts/services.html' %}
+    <!-- Our Services End -->
+    <!--? About-3 Start -->
+    {% include 'layouts/about-three-section.html' %}
+    <!-- About-3 End -->
+    <!--? Blog Area Start -->
+    {% include 'layouts/blog-area.html' %}
+    <!-- Blog Area End -->
+</main>
+    
+{% endblock body %}
+    
