@@ -1,0 +1,52 @@
+{% extends 'common/base.html' %}
+
+
+{% block body %}
+
+
+<div class="container mt-5 pt-5 pb-3">
+    <h2 class="text-center">Add New Food Item</h2>
+    <form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="mb-3">
+            <label for="name" class="form-label">Food Name</label>
+            <input type="text" class="form-control" id="name" name="name" maxlength="100" required>
+        </div>
+        
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+        </div>
+        
+        <div class="mb-3">
+            <label for="calories" class="form-label">Calories (kcal)</label>
+            <input type="number" class="form-control" id="calories" name="calories" min="0" required>
+        </div>
+        
+        <div class="mb-3">
+            <label for="price" class="form-label">Price ($)</label>
+            <input type="number" class="form-control" id="price" name="price" step="0.01" max="9999.99" required>
+        </div>
+        <div class="mb-3">
+            <label for="image" class="form-label">Food Image</label>
+            <input type="file" class="form-control" id="image" name="image">
+        </div>
+        
+        <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="is_available" name="is_available" checked>
+            <label class="form-check-label" for="is_available">Available</label>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Add Food Item</button>
+    </form>
+</div>
+
+
+
+    
+{% endblock body %}
+    
+
+
+

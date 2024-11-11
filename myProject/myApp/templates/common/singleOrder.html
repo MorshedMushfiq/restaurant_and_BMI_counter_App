@@ -1,0 +1,24 @@
+{% extends 'common/base.html' %}
+
+{% block body %}
+<div class="container mt-5 pt-5 pb-3">
+    <h2>Order ID: {{ order.id }}</h2>
+    <p><strong>Total Price:</strong> ${{ order.total_price }}</p>
+    <p><strong>Ordered At:</strong> {{ order.ordered_at }}</p>
+    <p><strong>Status:</strong> {% if order.is_delivered %}Delivered{% else %}Pending{% endif %}</p>
+
+    <h4>Items:</h4>
+    <ul>
+        {% for item in order_items %}
+            <li>
+                <strong>{{ item.food.name }}</strong> - Quantity: {{ item.quantity }} - 
+                Price: ${{ item.food.price }}
+            </li>
+        {% empty %}
+            <li>No items found in this order.</li>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'orderedFood' %}" class="btn btn-secondary">Back to Orders</a>
+</div>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends 'common/base.html' %}
+
+
+
+{% block body %}
+
+
+<div class="container mt-5 pt-5 pb-3">
+    <h2>Edit Food Item</h2>
+    <form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control" id="name" name="name" value="{{ food.name }}">
+            <input type="hidden" class="form-control" id="name" name="food_id" value="{{ food.id }}">
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea class="form-control" id="description" name="description" rows="3">{{ food.description }}</textarea>
+        </div>
+        <div class="mb-3">
+            <label for="calories" class="form-label">Calories</label>
+            <input type="number" class="form-control" id="calories" name="calories" value="{{ food.calories }}" >
+        </div>
+        <div class="mb-3">
+            <label for="image" class="form-label">Food Image</label><br>
+            {% if food.image %}
+                <img src="{{ food.image.url }}" alt="{{ food.name }}" width="150"><br>
+            {% endif %}
+            <input type="hidden" class="form-control mt-2" id="image" name="old_img" value="{{food.image}}">
+            <input type="file" class="form-control mt-2" id="image" name="new_img">
+        </div>
+        <div class="mb-3">
+            <label for="price" class="form-label">Price</label>
+            <input type="number" class="form-control" id="price" name="price" step="0.01" value="{{ food.price }}" >
+        </div>
+
+        <div class="form-check mb-3">
+            <input type="checkbox" class="form-check-input" id="is_available" name="is_available" {% if food.is_available %}checked{% endif %}>
+            <label class="form-check-label" for="is_available">Available</label>
+        </div>
+        <button type="submit" class="btn btn-primary">Update</button>
+        <a href="{% url 'manageFood' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+
+
+
+
+
+    
+{% endblock body %}
+    
+
+

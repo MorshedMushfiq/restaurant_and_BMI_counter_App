@@ -1,0 +1,53 @@
+{% extends 'common/base.html' %}
+
+
+
+
+{% block body %}
+    
+
+<div class="container mt-5 pt-5 pb-3">
+    <h2 class="mb-4 text-center">Available Foods</h2>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for food in foods %}
+            <div class="col">
+                <div class="card h-100">
+                    {% if food.image %}
+                        <a href="{% url 'food_detail' food.id %}"><img src="{{ food.image.url }}" class="card-img-top img-fluid" alt="{{ food.name }}"></a>
+                    {% else %}
+                        <img src="https://via.placeholder.com/300x200?text=No+Image" class="card-img-top" alt="No Image">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ food.name }}</h5>
+                        <p class="card-text"><strong>Calories:</strong> {{ food.calories }} kcal</p>
+                        <p class="card-text"><strong>Price:</strong> ${{ food.price }}</p>
+                        
+                        {% if request.user.user_type == "customer" %}
+                            <a class="genric-btn danger circle arrow" href="{% url 'add_to_cart' food.id %}">Order Now</a>
+                        {% endif %}
+                            
+                       
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12">
+                <p class="text-center">No available foods at the moment.</p>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+
+
+
+{% endblock body %}
+    
+
+
+
+
+
+
+

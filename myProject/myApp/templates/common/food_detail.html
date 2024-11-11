@@ -1,0 +1,48 @@
+<!-- food_detail.html -->
+{% extends 'common/base.html' %}
+
+{% block body %}
+    <div class="container mt-5 pt-5 pb-3">
+        <h2>{{ food.name }}</h2>
+
+        <div>
+            <img src="{{ food.image.url }}" alt="{{ food.name }}" width="150">
+            <p>{{ food.description }}</p>
+            <p>Calories per serving: {{ food.calories }} kcal</p>
+            <p>Price: ${{ food.price }}</p>
+        </div>
+        
+        {% if request.user.user_type == 'customer' %}
+            
+            <form method="POST">
+                {% csrf_token %}
+                <label for="quantity">Quantity:</label>
+                <input type="number" id="quantity" name="quantity" value="1" min="1" onchange="updateCalories()">
+                <p>Total Calories: <span id="total_calories">{{ food.calories }}</span> kcal</p>
+                <p>Total Price: $<span id="total_price">{{ food.price }}</span></p>
+
+                <button type="submit" class="btn btn-primary">Add to Cart</button>
+            </form>
+        {% elif request.user.user_type == 'seller' %}  
+            <a href="{% url 'allFoods' %}" class="btn btn-secondary">Back</a>  
+        {% endif %}
+            
+
+
+    </div>
+<script>
+    function updateCalories() {
+        var quantity = document.getElementById("quantity").value;
+        var caloriesPerServing = {{ food.calories }};
+        var pricePerServing = {{ food.price }};
+        
+        // Update total calories and price dynamically
+        var totalCalories = caloriesPerServing * quantity;
+        var totalPrice = pricePerServing * quantity;
+        
+        document.getElementById("total_calories").textContent = totalCalories;
+        document.getElementById("total_price").textContent = totalPrice.toFixed(2);
+    }
+</script>
+
+{% endblock body %}

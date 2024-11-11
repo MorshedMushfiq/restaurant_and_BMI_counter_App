@@ -74,6 +74,8 @@
 
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" value="{{user.email}}" >
+        <label for="email">Age:</label>
+        <input type="number" id="email" name="age" value="{{user.age}}">
 
 
         <label for="password">Profile Pic</label>
@@ -87,6 +89,28 @@
 
         <label for="password">Contact Number</label>
         <input type="text" id="password" name="contact_no" value="{{user.contact_no}}" >
+
+
+        <label for="activity_level">Activity Level:</label>
+        <select name="activity_level" id="activity_level">
+            <option value="sedentary"
+            
+            {% if user.activity_level == "sedentary" %}
+                selected
+            {% endif %}
+                
+            >Sedentary</option>
+            <option value="moderately_active"
+                        
+            {% if user.activity_level == "moderately_active" %}
+                selected
+            {% endif %}>Moderately Active</option>
+            <option value="very_active"
+            {% if user.activity_level == "very_active" %}
+            selected
+        {% endif %}
+            >Very Active</option>
+        </select><br>
 
 
         <button type="submit">Update Profile</button>

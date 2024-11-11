@@ -20,20 +20,35 @@
                                       <ul id="navigation">
                                           <li><a href="{% url 'homePage' %}">Home</a></li>
                                           <li><a href="{% url 'about' %}">About</a></li>
-                                          <li><a href="{% url 'menu' %}">Menu</a></li>
-                                          <li><a href="">Blog</a>
-                                              <ul class="submenu">
-                                                  <li><a href="{% url 'blog' %}">Blog</a></li>
+                                          
+                                          <li><a href="{% url 'allFoods' %}">Foods</a>
+                                            
+                                            {% if request.user.user_type == "customer" %}
+                                                <li><a href="{% url 'calorie_counter' %}">Calorie Counter</a></li>
+                                            {% endif %}
+                                                
+                                              {% comment %} <ul class="submenu">
+                                                  <li><a href="">Blog</a></li>
                                                   <li><a href="#">Blog Details</a></li>
-                                              </ul>
-                                          </li>
+                                              </ul> 
+                                          </li>{% endcomment %}
+
                                           <li><a href="{% url 'contact' %}">Contact</a></li>
                                       </ul>
                                   </nav>
                               </div>
-                              <div class="header-right-btn f-right d-none d-lg-block ml-20">
-                                  <a href="#" class="border-btn header-btn">Order Online</a>
-                              </div>
+                            
+                            {% if request.user.user_type == "customer" %}
+                            <div class="header-right-btn f-right d-none d-lg-block ml-20">
+                                <a href="{% url 'view_cart' %}" class="border-btn header-btn">My Cart</a>
+                            </div>
+
+                            {% elif request.user.user_type == "seller" %}
+                            <div class="header-right-btn f-right d-none d-lg-block ml-20">
+                                <a href="{% url 'profilePage' %}" class="border-btn header-btn">My Profile</a>
+                            </div>
+                            {% endif %}
+                                
                           </div>
                       </div>   
                       <!-- Mobile Menu -->

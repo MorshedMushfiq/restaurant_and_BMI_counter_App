@@ -74,8 +74,9 @@
     {% if request.user.user_type == 'seller' %}
 
     <h1>Food Seller</h1>
-    <a class='btn-sm btn-dark' href="#">Add Foods</a>
-    <a class='btn-sm btn-success' href="#">Manage Foods</a>
+    <a class='btn-sm btn-dark' href="{% url 'addFood' %}">Add Foods</a>
+    <a class='btn-sm btn-success' href="{% url 'manageFood' %}">Manage Foods</a>
+    <a class='btn-sm btn-secondary' href="{% url 'manageOrders' %}">Manage Orders</a>
         
     {% endif %}
 
@@ -83,7 +84,7 @@
 
     <h1>Customer</h1>
         
-    <a class='btn-sm btn-info' href="#">Orderd Foods</a>
+    <a class='btn-sm btn-info' href="{% url 'orderedFood' %}">Orderd Foods</a>
     {% endif %}
         
 

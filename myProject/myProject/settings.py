@@ -126,6 +126,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = "myApp.customUser"
 
 LOGIN_URL ="signInPage"
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 
 STATICFILES_DIRS = [
     BASE_DIR / "static",

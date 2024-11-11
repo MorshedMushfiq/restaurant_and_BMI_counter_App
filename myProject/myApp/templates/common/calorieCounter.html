@@ -1,0 +1,194 @@
+{% extends 'common/base.html' %}
+
+{% block body %}
+<!-- calorieCounter.html -->
+<div class="container mt-5 pt-5 pb-3">
+    <h2>Your Calorie Counter</h2>
+
+    <!-- Calorie Information -->
+    <div class="row">
+        <div class="col-md-6">
+            <h4>Total Calories Consumed: 
+                {% if overloaded %}
+                    <strong style="color: red;">{{ total_calories }} kcal</strong>
+                {% else %}
+                    <strong>{{ total_calories }} kcal</strong>
+                {% endif %}
+            </h4>
+        </div>
+        <div class="col-md-6 text-end">
+            {% if overloaded %}
+                <div class="alert alert-danger">
+                    <strong>Warning!</strong> You have exceeded your recommended daily calorie intake according to your age, gender, and activity level.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- List of Foods Added -->
+    <h4 class="mt-4">Food Items</h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Food</th>
+                <th>Quantity</th>
+                <th>Calories</th>
+                <th>Remove</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in food_items %}
+                <tr>
+                    <td>{{ item.food.name }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.get_total_calories }} kcal</td>
+                    <td><a href="{% url 'remove_food_from_counter' item.id %}" class="btn btn-danger btn-sm">Remove</a></td>
+                    <td>
+                        <!-- Add Order Button to go to the Product page with the quantity -->
+                        <a href="{% url 'food_detail' food_id=item.food.id %}" class="btn btn-success btn-sm">Order</a>
+                    </td>
+
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="4" class="text-center">No foods added yet.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Available Foods to Add -->
+    <h4 class="mt-4">Available Foods to Add</h4>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Food Name</th>
+                <th>Calories</th>
+                <th>Quantity</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for food in all_food_items %}
+                <tr>
+                    <td>{{ food.name }}</td>
+                    <td>{{ food.calories }} kcal</td>
+                    <td>
+                        <form method="POST" action="{% url 'add_food_to_counter' food.id %}">
+                            {% csrf_token %}
+                            <input type="number" name="quantity" value="1" min="1" class="form-control" style="width: 60px;">
+                            <span><button type="submit" class="genric-btn primary">Add to Counter</button></span>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+    <h2>Recommended Daily Calorie Intake</h2>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Age Group</th>
+            <th>Men (Sedentary)</th>
+            <th>Men (Moderately Active)</th>
+            <th>Men (Very Active)</th>
+            <th>Women (Sedentary)</th>
+            <th>Women (Moderately Active)</th>
+            <th>Women (Very Active)</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>18-25</td>
+            <td>2,400 kcal</td>
+            <td>2,800 kcal</td>
+            <td>3,000 kcal</td>
+            <td>1,800 kcal</td>
+            <td>2,100 kcal</td>
+            <td>2,400 kcal</td>
+        </tr>
+        <tr>
+            <td>26-45</td>
+            <td>2,400 kcal</td>
+            <td>2,600 kcal</td>
+            <td>2,800 kcal</td>
+            <td>1,800 kcal</td>
+            <td>2,000 kcal</td>
+            <td>2,200 kcal</td>
+        </tr>
+        <tr>
+            <td>46-65</td>
+            <td>2,200 kcal</td>
+            <td>2,400 kcal</td>
+            <td>2,600 kcal</td>
+            <td>1,800 kcal</td>
+            <td>2,000 kcal</td>
+            <td>2,200 kcal</td>
+        </tr>
+        <tr>
+            <td>65+</td>
+            <td>2,000 kcal</td>
+            <td>2,200 kcal</td>
+            <td>2,400 kcal</td>
+            <td>1,600 kcal</td>
+            <td>1,800 kcal</td>
+            <td>2,000 kcal</td>
+        </tr>
+    </tbody>
+</table>
+
+
+    <!-- Calorie Chart (Visualizing the Calorie Distribution) -->
+    <h4 class="mt-4">Calorie Distribution</h4>
+    <canvas id="calorieChart" width="400" height="200"></canvas>
+
+
+
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    var canvas = document.getElementById('calorieChart');
+    canvas.width = 500;  // Set width dynamically
+    canvas.height = 200; // Set height dynamically
+    // Data for the chart
+    var foodNames = [{% for item in food_items %}"{{ item.food.name }}"{% if not forloop.last %},{% endif %}{% endfor %}];
+    var calorieValues = [{% for item in food_items %}{{ item.food.calories }}{% if not forloop.last %},{% endif %}{% endfor %}];
+
+    var ctx = document.getElementById('calorieChart').getContext('2d');
+    var calorieChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: foodNames,
+            datasets: [{
+                label: 'Calories Consumed',
+                data: calorieValues,
+                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4CAF50', '#FFC107'],
+                borderColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4CAF50', '#FFC107'],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(tooltipItem) {
+                            return tooltipItem.label + ': ' + tooltipItem.raw + ' kcal';
+                        }
+                    }
+                }
+            }
+        }
+    });
+</script>
+
+
+
+{% endblock %}

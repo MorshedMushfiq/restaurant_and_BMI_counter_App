@@ -1,0 +1,26 @@
+{% extends 'common/base.html' %}
+
+
+
+
+{% block body %}
+
+
+
+<div class="container mt-5 pt-5 pb-3">
+    <h2>{{ food.name }} Details</h2>
+    {% if food.image %}
+        <img src="{{ food.image.url }}" alt="{{ food.name }}" width="300"><br><br>
+    {% endif %}
+    <p><strong>Description:</strong> {{ food.description|default:"N/A" }}</p>
+    <p><strong>Calories:</strong> {{ food.calories }} kcal</p>
+    <p><strong>Price:</strong> ${{ food.price }}</p>
+    <p><strong>Available:</strong> {{ food.is_available|yesno:"Yes,No" }}</p>
+    <a href="{% url 'manageFood' %}" class="btn btn-secondary">Back to List</a>
+</div>
+
+
+
+    
+{% endblock body %}
+    

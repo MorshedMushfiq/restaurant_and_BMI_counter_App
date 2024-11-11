@@ -1,0 +1,57 @@
+{% extends 'common/base.html' %}
+
+{% block body %}
+<div class="container mt-5 pt-5 pb-3">
+    <h1>Order Management</h1>
+    {% include 'layouts/messages.html' %}
+
+    <!-- Orders Table -->
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Food Item</th>
+                <th>Quantity</th>
+                <th>Customer</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.food.name }}</td>
+                <td>{{ order.quantity }}</td>
+                <td>{{ order.user.username }}</td>
+                <td>
+                    {% if order.order.is_delivered == "delivered" %}
+                    <span class="badge bg-success text-light">Delivered</span>
+                    {% elif order.order.is_delivered == "pending" %}
+                    <span class="badge bg-warning">Pending</span>
+                    {% elif order.order.is_delivered == "cancel" %}
+                    <span class="badge bg-danger text-light">Cancel</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <form method="POST" action="">
+                        {% csrf_token %}
+                        <input type="hidden" name="order_id" value="{{ order.id }}">
+                        <select name="status" class="form-select">
+                            <option value="pending" {% if order.order.is_delivered == "pending" %}selected{% endif %}>Pending</option>
+                            <option value="delivered" {% if order.order.is_delivered == "delivered" %}selected{% endif %}>Delivered</option>
+                            <option value="cancel" {% if order.order.is_delivered == "cancel" %}selected{% endif %}>Cancel</option>
+                        </select>
+                        <button type="submit" class="btn btn-primary btn-sm">Update Status</button>
+                    </form>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6" class="text-center">No orders available.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

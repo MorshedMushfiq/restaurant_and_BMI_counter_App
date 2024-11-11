@@ -1,0 +1,58 @@
+{% extends 'common/base.html' %}
+
+{% block body %}
+<div class="container mt-5 pt-5 pb-3">
+    <h3>Your Orders</h3>
+    {% include 'layouts/messages.html' %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Total Price</th>
+                <th>Items</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+                <tr>
+                    <td>{{ order.id }}</td>
+                    <td>${{ order.total_price }}</td>
+                    <td>
+                        <ul>
+                            {% for item in order.Order.all %}
+                                <li>
+                                    <strong>{{ item.food.name }}</strong> -
+                                    Quantity: {{ item.quantity }} -
+                                    Price: ${{ item.food.price }}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <td>
+                        {% if order.is_delivered == "delivered" %}
+                        <span class="badge bg-success text-light">Delivered</span>
+                        {% elif order.is_delivered == "pending" %}
+                        <span class="badge bg-warning">Pending</span>
+                        {% elif order.is_delivered == "cancel" %}
+                        <span class="badge bg-danger text-light">Cancel</span>
+                        {% endif %}
+
+
+                    </td>
+                    <td>
+                        <a href="{% url 'singleOrder' order.id %}" class="genric-btn warning circle arrow">View</a>
+                        <a href="{% url 'cancel_order' order.id %}" class="genric-btn danger circle arrow" 
+                           onclick="return confirm('Are you sure you want to cancel this order?');">Cancel</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="5">No orders found.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock body %}

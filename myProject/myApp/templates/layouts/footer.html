@@ -22,8 +22,10 @@
                                 <ul>
                                     <li><a href="{% url 'homePage' %}">Home</a></li>
                                     <li><a href="{% url 'about' %}">About</a></li>
-                                    <li><a href="#">BMI Counter</a></li>
-                                    <li><a href="{% url 'blog' %}">Blog</a></li>
+                                {% if request.user.user_type == "customer" %}
+                                    <li><a href="{% url 'calorie_counter' %}">Calorie Counter</a></li>
+                                {% endif %}
+                                    
                                     <li><a href="{% url 'contact' %}">Contact us</a></li>
                                 </ul>
                             </div>

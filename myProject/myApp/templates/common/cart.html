@@ -1,0 +1,58 @@
+{% extends 'common/base.html' %}
+
+{% block body %}
+<div class="container mt-5 pt-5 pb-3">
+    <h2>Your Cart</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cart_items %}
+                <tr>
+                    <td>
+                        {% if item.food.image %}
+                            <img src="{{ item.food.image.url }}" alt="{{ item.food.name }}" width="50">
+                        {% endif %}
+                    </td>
+                    <td>{{ item.food.name }}</td>
+                    <td>
+                        <!-- Form for updating quantity -->
+                        <form action="{% url 'update_cart_quantity' item.id %}" method="POST">
+                            {% csrf_token %}
+                            <input type="number" name="quantity" value="{{ item.quantity }}" min="1" class="form-control" style="width: 70px; display: inline;">
+                            <button type="submit" class="btn btn-sm btn-primary">Update</button>
+                        </form>
+                    </td>
+                    <td>${{ item.food.price }}</td>
+                    <td>${{ item.get_total_price }}</td>
+                    <td><a href="{% url 'remove_from_cart' item.id %}" class="btn btn-danger btn-sm">Remove</a></td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="5" class="text-center">Your cart is empty.</td>
+                </tr>
+            {% endfor %}
+            {% if cart_items %}
+                <tr>
+                    <td colspan="4" class="text-end"><strong>Total Price:</strong></td>
+                    <td><strong>${{ total_price }}</strong></td>
+                </tr>
+                <tr>
+                    <td colspan="5" class="text-end">
+                        <a href="{% url 'place_order' %}" class="genric-btn primary circle arrow">Place Order</a>
+                    </td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+    <a href="{% url 'orderedFood' %}" class="btn btn-success">Go to My Order</a>
+</div>
+{% endblock body %}
